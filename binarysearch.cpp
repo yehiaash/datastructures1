@@ -28,28 +28,48 @@ public:
                 return mid;
 
             com++;
-            if (arr[l] < arr[mid])// arr[mid] belongs to left sorted array
+            if (arr[l] <= arr[mid]) // left half sorted
             {
-                com += 2;
-                if (arr[l] <= target && target < arr[mid])
-                    r = mid - 1;
+                com++;
+                if (arr[l] <= target)
+                {
+                    com++;
+                    if (target < arr[mid])
+                    {
+                        r = mid - 1;
+                    }
+                    else
+                    {
+                        l = mid + 1;
+                    }
+                }
                 else
+                {
                     l = mid + 1;
+                }
             }
-            else if (arr[mid] < arr[r])// arr[mid] belongs to right sorted array
+            else // right half sorted
             {
-                com += 2;
-                if (arr[mid] < target && target <= arr[r])
-                    l = mid + 1;
+                com++;
+                if (arr[mid] < target)
+                {
+                    com++;
+                    if (target <= arr[r])
+                    {
+                        l = mid + 1;
+                    }
+                    else
+                    {
+                        r = mid - 1;
+                    }
+                }
                 else
+                {
                     r = mid - 1;
-            }
-            else
-            {
-                l++;
-                r--;
+                }
             }
         }
+
         return -1;
     }
 
