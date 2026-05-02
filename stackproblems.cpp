@@ -1,14 +1,16 @@
 #include <iostream>
 #include<string>
 #include<stack>
+#include <vector>
 using namespace std;
 class stackproblems {
     string input;
     string postfix="";
     stack<char> operations=stack<char>();
     stack<int>result;
+    stack<int>circular;
 public:
-    stackproblems(string userinput) {
+    stackproblems(string userinput="") {
         input = userinput;
     }
     string infixtopostfix() {
@@ -101,15 +103,70 @@ public:
         }
         return result.top();
     }
+    void nextgreater(vector<int> nums, int n) {
+        vector<int> temp(n,0);
+        for (int i = 0; i < n; i++) {
+            bool check = false;
+            for(int j=i-1;j>=0;j--){
+                circular.push(nums[j]);
+            }
+            for (int k = n - 1; k > i; k--) {
+                circular.push(nums[k]);
+            }
+            while (!circular.empty()) {
+                if (circular.top() > nums[i]) {
+                    temp[i] = circular.top();
+                    check = true;
+                    break;
+
+                }
+                else {
+                    circular.pop();
+                }
+            }
+            if (!check) {
+                temp[i] = -1;
+            }
+            circular = stack<int>();
+        }
+        cout << "[";
+        for (int i = 0; i < n; i++) {
+            if (i == n - 1) {
+                cout << temp[i] << "]";
+            }
+            else {
+                cout << temp[i] << ",";
+            }
+        }
+    }
 };
 int main()
 {
-    string input;
-    getline(cin, input);
-    stackproblems problem = stackproblems(input);
-    string postfix = problem.infixtopostfix();
-    int result = problem.evalpfix(postfix);
-    cout << result << endl;
+    int choice = 0;
+    cout << "Choose a problem(1,2) ";
+    cin >> choice;
+    cin.ignore();
+    if (choice == 1) {
+        string input;
+        getline(cin, input);
+        stackproblems problem = stackproblems(input);
+        string postfix = problem.infixtopostfix();
+        int result = problem.evalpfix(postfix);
+        cout << result << endl;
+    }
+    else if (choice == 2) {
+        int n;
+        cin >> n;
+        vector<int> input(n);
+        for (int i = 0; i < n; i++) {
+            cin >> input[i];
+        }
+        stackproblems problem = stackproblems();
+        problem.nextgreater(input, n);
+    }
+  
+    
+
 }
 
 
