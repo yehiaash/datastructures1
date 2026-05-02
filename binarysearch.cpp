@@ -7,7 +7,7 @@ class RotatedBinarySearch
 {
 private:
     vector<T> arr;
-    int com = 0;
+    int Comparisons = 0;
 
 public:
     void setArray(vector<T> a)
@@ -16,24 +16,26 @@ public:
     }
     int search(T target)
     {
-        com = 0;
+        Comparisons = 0;
+        if (arr.empty())
+            return -1;
         int l = 0, r = arr.size() - 1;
 
         while (l <= r)
         {
             int mid = l + (r - l) / 2;
 
-            com++;
+            Comparisons++;
             if (arr[mid] == target)
                 return mid;
 
-            com++;
+            Comparisons++;
             if (arr[l] <= arr[mid]) // left half sorted
             {
-                com++;
+                Comparisons++;
                 if (arr[l] <= target)
                 {
-                    com++;
+                    Comparisons++;
                     if (target < arr[mid])
                     {
                         r = mid - 1;
@@ -50,10 +52,10 @@ public:
             }
             else // right half sorted
             {
-                com++;
+                Comparisons++;
                 if (arr[mid] < target)
                 {
-                    com++;
+                    Comparisons++;
                     if (target <= arr[r])
                     {
                         l = mid + 1;
@@ -75,7 +77,7 @@ public:
 
     int getComparisons()
     {
-        return com;
+        return Comparisons;
     }
 };
 int main()
@@ -86,7 +88,7 @@ int main()
 
     obj.setArray(v);
 
-    int target = 9;
+    int target = 7;
 
     int idx = obj.search(target);
 
