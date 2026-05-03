@@ -50,7 +50,7 @@ public:
                     l = mid + 1;
                 }
             }
-            else // right half sorted
+            else if (arr[r] >= arr[mid]) // right half sorted
             {
                 Comparisons++;
                 if (arr[mid] < target)
@@ -70,6 +70,11 @@ public:
                     r = mid - 1;
                 }
             }
+            else // handle duplicates
+            {
+                l++;
+                r--;
+            }
         }
 
         return -1;
@@ -84,7 +89,7 @@ int main()
 {
     RotatedBinarySearch<int> obj;
 
-    vector<int> v = {5, 6, 7, 1, 2, 3, 4};
+    vector<int> v = {2, 2, 2, 2, 2, 2, 2, 2};
 
     obj.setArray(v);
 
@@ -99,3 +104,14 @@ int main()
 
     cout << "Comparisons: " << obj.getComparisons() << endl;
 }
+/*
+Best Case Complexity: O(1)
+- When target is found at the first middle check.
+
+Worst Case Complexity: O(n)
+- Due to duplicate elements, we may shrink
+  the search space one element at a time.
+
+  
+  Average:    O(log n) → normal rotated array without duplicates
+*/
